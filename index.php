@@ -16,7 +16,7 @@ class AreYouPayingAttention
 {
     function __construct()
     {
-        add_action("init", array($this, "adminAssets"));
+        add_action("init", [$this, "adminAssets"]);
     }
 
     function adminAssets()
@@ -28,13 +28,13 @@ class AreYouPayingAttention
         wp_register_script(
             "ournewblocktype",
             plugin_dir_url(__FILE__) . "build/index.js",
-            array("wp-blocks", "wp-element", "wp-editor")
+            ["wp-blocks", "wp-element", "wp-editor"]
         );
-        register_block_type("ourplugin/are-you-paying-attention", array(
+        register_block_type("ourplugin/are-you-paying-attention", [
             "editor_script" => "ournewblocktype",
             "editor_style" => "quizeditcss",
-            "render_callback" => array($this, "theHTML")
-        ));
+            "render_callback" => [$this, "theHTML"],
+        ]);
     }
 
     function theHTML($attributes)
