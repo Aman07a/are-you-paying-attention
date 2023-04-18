@@ -14,6 +14,7 @@ import {
   InspectorControls,
   BlockControls,
   AlignmentToolbar,
+  useBlockProps,
 } from "@wordpress/block-editor";
 import { ChromePicker } from "react-color";
 
@@ -71,6 +72,11 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
 });
 
 function EditComponent(props) {
+  const blockProps = useBlockProps({
+    className: "paying-attention-edit-block",
+    style: { backgroundColor: props.attributes.bgColor },
+  });
+
   function updateQuestion(value) {
     props.setAttributes({ question: value });
   }
@@ -91,10 +97,7 @@ function EditComponent(props) {
   }
 
   return (
-    <div
-      className="paying-attention-edit-block"
-      style={{ backgroundColor: props.attributes.bgColor }}
-    >
+    <div {...blockProps}>
       <BlockControls>
         <AlignmentToolbar
           value={props.attributes.theAlignment}
@@ -124,6 +127,7 @@ function EditComponent(props) {
           <Flex>
             <FlexBlock>
               <TextControl
+                autoFocus={answer == undefined}
                 value={answer}
                 onChange={(newValue) => {
                   const newAnswers = props.attributes.answers.concat([]);
@@ -160,7 +164,7 @@ function EditComponent(props) {
         isPrimary
         onClick={() => {
           props.setAttributes({
-            answers: props.attributes.answers.concat([""]),
+            answers: props.attributes.answers.concat([undefined]),
           });
         }}
       >
