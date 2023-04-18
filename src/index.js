@@ -10,7 +10,11 @@ import {
   PanelRow,
   ColorPicker,
 } from "@wordpress/components";
-import { InspectorControls } from "@wordpress/block-editor";
+import {
+  InspectorControls,
+  BlockControls,
+  AlignmentToolbar,
+} from "@wordpress/block-editor";
 import { ChromePicker } from "react-color";
 
 (function () {
@@ -48,6 +52,17 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
     answers: { type: "array", default: [""] },
     correctAnswer: { type: "number", default: undefined },
     bgColor: { type: "string", default: "#EBEBEB" },
+    theAlignment: { type: "string", default: "left" },
+  },
+  description: "Give your audience a chance to prove their comprehension.",
+  example: {
+    attributes: {
+      question: "What is my name?",
+      correctAnswer: 3,
+      answers: ["Meowsalot", "Barksalot", "Purrsloud", "Brad"],
+      theAlignment: "center",
+      bgColor: "#CFE8F1",
+    },
   },
   edit: EditComponent,
   save: function (props) {
@@ -80,6 +95,12 @@ function EditComponent(props) {
       className="paying-attention-edit-block"
       style={{ backgroundColor: props.attributes.bgColor }}
     >
+      <BlockControls>
+        <AlignmentToolbar
+          value={props.attributes.theAlignment}
+          onChange={(x) => props.setAttributes({ theAlignment: x })}
+        />
+      </BlockControls>
       <InspectorControls>
         <PanelBody title="Background Color" initialOpen={true}>
           <PanelRow>
